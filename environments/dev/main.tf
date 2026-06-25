@@ -21,5 +21,5 @@ module "archivos" {
   ambiente    = "dev"
   propietario = var.nombre
   cantidad    = var.cantidad
-  mensaje     = "Archivo de desarrollo"
+  mensaje     = "Archivo de desarrollo - CI/CD activo"
 }
