@@ -1,0 +1,4 @@
+Hola Daniel!
+Este archivo fue generado automaticamente.
+Ambiente : dev
+Fecha    : 2026-06-24

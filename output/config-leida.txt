@@ -1,0 +1,6 @@
+Configuracion leida del archivo existente:
+{
+  "app": "MiApp",
+  "version": "1.0.0",
+  "max_instancias": 5
+}
