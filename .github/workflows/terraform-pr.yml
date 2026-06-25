@@ -1,6 +1,5 @@
 name: Terraform PR Validation
 
-# Solo corre en Pull Requests hacia main
 on:
   pull_request:
     branches:
@@ -16,10 +15,6 @@ jobs:
   validate-dev:
     name: Validate DEV
     runs-on: ubuntu-latest
-    # Solo corre si hay cambios en dev o modules
-    if: |
-      contains(github.event.pull_request.changed_files, 'environments/dev') ||
-      contains(github.event.pull_request.changed_files, 'modules')
 
     steps:
       - name: Checkout code
@@ -49,9 +44,6 @@ jobs:
   validate-prod:
     name: Validate PROD
     runs-on: ubuntu-latest
-    if: |
-      contains(github.event.pull_request.changed_files, 'environments/prod') ||
-      contains(github.event.pull_request.changed_files, 'modules')
 
     steps:
       - name: Checkout code
