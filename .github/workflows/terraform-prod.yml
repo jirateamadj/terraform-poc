@@ -1,0 +1,51 @@
+name: Terraform PROD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'environments/prod/**'
+      - 'modules/**'
+
+env:
+  TF_CLOUD_ORGANIZATION: "Leinad"
+  TF_WORKSPACE: "prod"
+  TF_VAR_nombre: "Daniel"
+
+jobs:
+  terraform:
+    name: Terraform Plan & Apply - PROD
+    runs-on: ubuntu-latest
+
+    # PROD requiere aprobación manual antes de apply
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform Init
+        working-directory: environments/prod
+        run: terraform init
+
+      - name: Terraform Format Check
+        working-directory: environments/prod
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        working-directory: environments/prod
+        run: terraform validate
+
+      - name: Terraform Plan
+        working-directory: environments/prod
+        run: terraform plan
+
+      - name: Terraform Apply
+        working-directory: environments/prod
+        run: terraform apply -auto-approve
