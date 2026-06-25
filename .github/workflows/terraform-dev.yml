@@ -57,8 +57,5 @@ jobs:
         working-directory: environments/dev
         run: terraform plan
 
-      # Paso 7: aplica los cambios (solo en push a main, no en PR)
-      - name: Terraform Apply
-        working-directory: environments/dev
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve
+      # Terraform Cloud aplica automaticamente al detectar el push en GitHub
+      # GitHub Actions solo valida y planifica

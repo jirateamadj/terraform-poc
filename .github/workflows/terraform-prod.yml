@@ -46,6 +46,5 @@ jobs:
         working-directory: environments/prod
         run: terraform plan
 
-      - name: Terraform Apply
-        working-directory: environments/prod
-        run: terraform apply -auto-approve
+      # Terraform Cloud aplica automaticamente al detectar el push en GitHub
+      # GitHub Actions solo valida y planifica
