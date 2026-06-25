@@ -1,0 +1,79 @@
+name: Terraform PR Validation
+
+# Solo corre en Pull Requests hacia main
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'environments/**'
+      - 'modules/**'
+
+env:
+  TF_VAR_nombre: "Daniel"
+
+jobs:
+  validate-dev:
+    name: Validate DEV
+    runs-on: ubuntu-latest
+    # Solo corre si hay cambios en dev o modules
+    if: |
+      contains(github.event.pull_request.changed_files, 'environments/dev') ||
+      contains(github.event.pull_request.changed_files, 'modules')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform Init
+        working-directory: environments/dev
+        run: terraform init
+
+      - name: Terraform Format Check
+        working-directory: environments/dev
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        working-directory: environments/dev
+        run: terraform validate
+
+      - name: Terraform Plan
+        working-directory: environments/dev
+        run: terraform plan
+
+  validate-prod:
+    name: Validate PROD
+    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.pull_request.changed_files, 'environments/prod') ||
+      contains(github.event.pull_request.changed_files, 'modules')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform Init
+        working-directory: environments/prod
+        run: terraform init
+
+      - name: Terraform Format Check
+        working-directory: environments/prod
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        working-directory: environments/prod
+        run: terraform validate
+
+      - name: Terraform Plan
+        working-directory: environments/prod
+        run: terraform plan
