@@ -15,7 +15,7 @@ terraform {
     }
   }
 }
-# Tmp
+
 module "archivos" {
   source      = "../../modules/generador-archivos"
   ambiente    = "dev"
