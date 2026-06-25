@@ -35,7 +35,7 @@ locals {
   # Usa la config del ambiente actual, si no existe usa dev por defecto
   settings = lookup(local.config, local.ambiente, local.config["dev"])
 }
-
+# Push to github
 module "archivos" {
   source      = "./modules/generador-archivos"
   ambiente    = local.ambiente
